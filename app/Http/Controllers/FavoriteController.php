@@ -13,10 +13,17 @@ class FavoriteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         $user = Auth::user();
-        $favorites = $user->favorites;
+        $query = $user->favorites();
+        $per_page = $request->input('per_page', 15);
+
+        if ($request->has('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+
+        $favorites = $query->paginate($per_page);
 
         return response()->json($favorites);
     }
