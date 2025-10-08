@@ -1,61 +1,134 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# MyFavorites Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este es el backend para la aplicación MyFavorites, construido con Laravel 11. Proporciona una API RESTful para la gestión de usuarios, autenticación y futuras funcionalidades.
 
-## About Laravel
+## Requisitos
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Docker
+- Docker Compose
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Guía de Instalación y Puesta en Marcha
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Sigue estos pasos para levantar el entorno de desarrollo local.
 
-## Learning Laravel
+### 1. Clonar el Repositorio
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```bash
+git clone <URL_DEL_REPOSITORIO>
+cd myfavoritesbackend
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 2. Configurar el Entorno
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+El proyecto utiliza un archivo `.env` para gestionar las variables de entorno.
 
-## Laravel Sponsors
+```bash
+# Copia el archivo de ejemplo para crear tu configuración local
+cp .env.example .env
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Abre el archivo `.env` y asegúrate de configurar las siguientes variables:
 
-### Premium Partners
+- **Base de Datos:** Las credenciales deben coincidir con las que se usarán para crear el contenedor de la base de datos.
+  ```env
+  DB_CONNECTION=mysql
+  DB_HOST=db
+  DB_PORT=3306
+  DB_DATABASE=myfavorites_db
+  DB_USERNAME=user
+  DB_PASSWORD=secret
+  MYSQL_ROOT_PASSWORD=root_secret
+  ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- **Servidor de Correo (SMTP):** Configura tus credenciales para el envío de correos (ej. Mailtrap, Gmail con contraseña de aplicación, etc.).
+  ```env
+  MAIL_MAILER=smtp
+  MAIL_HOST=sandbox.smtp.mailtrap.io
+  MAIL_PORT=2525
+  MAIL_USERNAME=tu_usuario
+  MAIL_PASSWORD=tu_contraseña
+  MAIL_ENCRYPTION=tls
+  ```
 
-## Contributing
+- **reCAPTCHA:** Añade tu clave secreta de Google reCAPTCHA v3. Para pruebas locales sin un frontend, puedes usar la clave de prueba de Google.
+  ```env
+  # Clave real de producción/desarrollo
+  RECAPTCHA_SECRET_KEY=TU_CLAVE_SECRETA_REAL
+  
+  # Clave para pruebas locales con Postman (v2)
+  RECAPTCHA_SECRET_KEY=6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
+  ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- **URL del Frontend:** Especifica la URL donde correrá tu aplicación frontend.
+  ```env
+  FRONTEND_URL=http://localhost:3000
+  ```
 
-## Code of Conduct
+### 3. Construir y Levantar los Contenedores
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Este comando construirá la imagen de la aplicación y levantará los contenedores de la app y la base de datos en segundo plano.
 
-## Security Vulnerabilities
+```bash
+docker-compose up -d --build
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 4. Inicializar la Aplicación
 
-## License
+Una vez que los contenedores estén corriendo, ejecuta los siguientes comandos para finalizar la instalación.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+# Generar la clave de la aplicación
+docker-compose exec app php artisan key:generate
+
+# Ejecutar las migraciones de la base de datos y los seeders
+docker-compose exec app php artisan migrate:fresh --seed
+```
+
+¡Listo! La aplicación ya está corriendo y accesible en `http://localhost:8001`.
+
+## Uso de la API
+
+### Autenticación (Login)
+
+Para obtener un token de acceso, necesitas un cliente de Passport. Si no tienes uno, créalo con:
+
+```bash
+docker-compose exec app php artisan passport:client --password
+```
+
+Usa el `Client ID` y `Client Secret` generados para hacer una petición `POST` a `/oauth/token` con el siguiente cuerpo (`x-www-form-urlencoded`):
+
+- `grant_type`: `password`
+- `client_id`: (tu client_id)
+- `client_secret`: (tu client_secret)
+- `username`: (email del usuario, ej. `test@example.com`)
+- `password`: (contraseña del usuario)
+
+### Proceso de Jobs (Colas)
+
+Para que funcionalidades como el envío de correos de recuperación de contraseña funcionen, necesitas tener un trabajador de colas corriendo.
+
+Abre una nueva terminal y ejecuta:
+```bash
+docker-compose exec app php artisan queue:listen
+```
+Deja este proceso corriendo mientras desarrollas.
+
+## Endpoints Principales
+
+- `POST /api/register`: Registro de un nuevo usuario.
+- `POST /oauth/token`: Login de usuario y obtención de token.
+- `POST /api/forgot-password`: Solicitar correo de recuperación de contraseña.
+- `POST /api/reset-password`: Cambiar la contraseña usando el token del correo.
+
+### Rutas Protegidas (Requieren Bearer Token)
+
+- `POST /api/logout`: Revocar el token de acceso actual.
+- `GET /api/users`: Listar todos los usuarios.
+- `GET /api/users/{uuid}`: Obtener un usuario específico.
+- `PUT /api/users/{uuid}`: Actualizar un usuario.
+- `DELETE /api/users/{uuid}`: Eliminar un usuario.
+
+## Licencia
+
+El framework Laravel es un software de código abierto licenciado bajo la [licencia MIT](https://opensource.org/licenses/MIT).
