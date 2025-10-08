@@ -135,6 +135,9 @@ Deja este proceso corriendo mientras desarrollas.
 - `GET /api/users/{uuid}`: Obtener un usuario específico.
 - `PUT /api/users/{uuid}`: Actualizar un usuario.
 - `DELETE /api/users/{uuid}`: Eliminar un usuario.
+- `GET /api/favorites`: Listar los favoritos del usuario.
+- `POST /api/favorites`: Añadir un favorito a la lista del usuario.
+- `DELETE /api/favorites/{favorite}`: Eliminar un favorito de la lista del usuario.
 
 ## Licencia
 
