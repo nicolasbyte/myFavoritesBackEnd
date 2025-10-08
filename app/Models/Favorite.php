@@ -18,6 +18,7 @@ class Favorite extends Model
     protected $fillable = [
         'name',
         'image_url',
+        'description',
     ];
 
     public function users(): BelongsToMany

@@ -37,7 +37,10 @@ class FavoriteController extends Controller
 
         $favorite = Favorite::firstOrCreate(
             ['name' => $request->name],
-            ['image_url' => $request->image_url]
+            [
+                'image_url' => $request->image_url,
+                'description' => $request->description,
+            ]
         );
 
         $user->favorites()->syncWithoutDetaching($favorite->id);
