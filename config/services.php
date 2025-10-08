@@ -37,6 +37,7 @@ return [
 
     'test_user' => [
         'password' => env('TEST_USER_PASSWORD'),
+        'email' => env('TEST_USER_EMAIL'),
     ],
 
     'recaptcha' => [

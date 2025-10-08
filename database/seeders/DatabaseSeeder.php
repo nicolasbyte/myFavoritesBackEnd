@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             'firstName' => 'Test',
             'firstLastName' => 'User',
             'identification' => '1234567890',
-            'email' => 'test@example.com',
+            'email' => config('services.test_user.email', 'test@example.com'),
             'password' => config('services.test_user.password', 'password123'),
         ]);
     }

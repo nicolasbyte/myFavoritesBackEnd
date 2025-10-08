@@ -50,6 +50,13 @@ Abre el archivo `.env` y asegúrate de configurar las siguientes variables:
   MAIL_ENCRYPTION=tls
   ```
 
+- **URL del Usuario de prueba:** Especifica el correo y clave del usuario de prueba.
+  ```env
+  TEST_USER_EMAIL=correoAlquellegaranCorreos
+  TEST_USER_PASSWORD=ClaveDelUsuarioDePruebas
+
+  ```
+
 - **reCAPTCHA:** Añade tu clave secreta de Google reCAPTCHA v3. Para pruebas locales sin un frontend, puedes usar la clave de prueba de Google.
   ```env
   # Clave real de producción/desarrollo
