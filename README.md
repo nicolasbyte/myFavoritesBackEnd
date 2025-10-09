@@ -68,7 +68,8 @@ Abre el archivo `.env` y asegúrate de configurar las siguientes variables:
 
 - **URL del Frontend:** Especifica la URL donde correrá tu aplicación frontend.
   ```env
-  FRONTEND_URL=http://localhost:3000
+  FRONTEND_URL=http://localhost:5173
+  CORS_ALLOWED_ORIGINS=http://localhost:5173
   ```
 
 ### 3. Construir y Levantar los Contenedores
