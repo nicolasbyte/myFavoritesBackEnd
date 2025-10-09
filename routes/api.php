@@ -15,12 +15,9 @@ Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
 // Ruta pública para cambiar la contraseña con el token
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
-
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/me', [AuthController::class, 'me']);
 
     // Rutas protegidas para la gestión de usuarios
     Route::apiResource('users', UserController::class)->except(['store']);

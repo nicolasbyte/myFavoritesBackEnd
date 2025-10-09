@@ -40,7 +40,7 @@ class AuthController extends Controller
 
             // Construir URL de reseteo
             $frontendUrl = config('app.frontend_url');
-            $resetUrl = "{$frontendUrl}/reset-password?token={$token}&email={$user->email}";
+            $resetUrl = "{$frontendUrl}/auth/reset-password?token={$token}&email={$user->email}";
 
             // Despachar el Job
             SendPasswordResetEmailJob::dispatch($user, $resetUrl);
@@ -78,6 +78,17 @@ class AuthController extends Controller
 
         // Si el token es inválido o ha expirado
         return response()->json(['message' => 'Invalid token or email.'], 400);
+    }
+
+    /**
+     * Get the authenticated User.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function me(Request $request): JsonResponse
+    {
+        return response()->json($request->user());
     }
 
     /**
